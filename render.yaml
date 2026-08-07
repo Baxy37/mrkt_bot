@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: mrkt-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m app.main
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mrkt-db
+          property: connectionString
+      - key: MRKT_API_URL
+        value: https://api.mrkt.io/v1/lots
+      - key: SCAN_INTERVAL
+        value: 10
+      - key: BUDGET_LIMIT
+        value: 1000.0
+      - key: MIN_PROFIT
+        value: 50.0
+      - key: MIN_RATING
+        value: 70
+      - key: BLACKLIST_COLLECTIONS
+        value: ""
+      - key: MODE
+        value: analytics
+      - key: LOG_LEVEL
+        value: INFO
+    healthCheckPath: /health  # если нужен эндпоинт для проверки, можно добавить
